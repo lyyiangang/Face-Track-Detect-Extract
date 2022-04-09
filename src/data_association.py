@@ -11,8 +11,13 @@ see https://github.com/nwojke/deep_sort
 
 import numpy as np
 from numba import jit
-from sklearn.utils.linear_assignment_ import linear_assignment
+# from sklearn.utils.linear_assignment_ import linear_assignment
+# from scipy.optimize import linear_sum_assignment as linear_assignment 
 
+def linear_assignment(cost_matrix):
+    from scipy.optimize import linear_sum_assignment
+    x, y = linear_sum_assignment(cost_matrix)
+    return np.array(list(zip(x, y)))
 
 @jit
 def iou(bb_test, bb_gt):

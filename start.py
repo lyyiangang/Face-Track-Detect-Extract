@@ -5,7 +5,9 @@ from time import time
 import align.detect_face as detect_face
 import cv2
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from lib.face_utils import judge_side_face
 from lib.utils import Logger, mkdir
 from project_root_dir import project_dir

@@ -32,7 +32,9 @@ import os
 # from math import floor
 import cv2
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from six import string_types, iteritems
 
 
@@ -84,7 +86,7 @@ class Network(object):
         session: The current TensorFlow session
         ignore_missing: If true, serialized weights for missing layers are ignored.
         '''
-        data_dict = np.load(data_path, encoding='latin1').item()  # pylint: disable=no-member
+        data_dict = np.load(data_path, encoding='latin1', allow_pickle=True).item()  # pylint: disable=no-member
 
         for op_name in data_dict:
             with tf.variable_scope(op_name, reuse=True):
@@ -715,7 +717,7 @@ def nms(boxes, threshold, method):
         w = np.maximum(0.0, xx2 - xx1 + 1)
         h = np.maximum(0.0, yy2 - yy1 + 1)
         inter = w * h
-        if method is 'Min':
+        if method == 'Min':
             o = inter / np.minimum(area[i], area[idx])
         else:
             o = inter / (area[i] + area[idx] - inter)
